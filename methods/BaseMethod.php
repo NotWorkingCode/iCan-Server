@@ -13,7 +13,7 @@ class BaseMethod
     }
     protected function checkParams(...$params) {
         foreach ($params as $param) {
-            if(!$param) $this->getResponseBuilder()->BuildErrorResponse();
+            if(!isset($param)) $this->getResponseBuilder()->BuildErrorResponse();
         }
     }
 }

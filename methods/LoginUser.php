@@ -9,8 +9,15 @@ class LoginUser extends BaseMethod
 
         $response = $this->getDatabase()->get("SELECT * FROM `users` WHERE `a_login` = '{$_GET["login"]}'");
 
-        if(!$response) $this->getResponseBuilder()->AddErrorUserMessage("Пользователь с данным логином еще не зарегестрирован!")->AddErrorDebugMessage("User not found.")->BuildErrorResponse();
-        if($response["a_pass"] != md5($_GET["pass"])) $this->getResponseBuilder()->AddErrorUserMessage("Вы ввели не верный пароль!")->AddErrorDebugMessage("Access denied.")->BuildErrorResponse();
+        if(!$response) $this->getResponseBuilder()
+            ->AddErrorUserMessage("Пользователь с данным логином еще не зарегестрирован!")
+            ->AddErrorDebugMessage("User not found.")
+            ->BuildErrorResponse();
+
+        if($response["a_pass"] != md5($_GET["pass"])) $this->getResponseBuilder()
+            ->AddErrorUserMessage("Вы ввели не верный пароль!")
+            ->AddErrorDebugMessage("Access denied | Invalid password.")
+            ->BuildErrorResponse();
 
         $token = md5(microtime() . $_GET["login"] . time() . date( "d.m.y") . $_GET["pass"]);
 
