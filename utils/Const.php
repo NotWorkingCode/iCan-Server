@@ -1,0 +1,4 @@
+<?php
+
+const RESPONSE_CODE_SUCCESS = 200;
+const RESPONSE_CODE_ERROR = -1;
