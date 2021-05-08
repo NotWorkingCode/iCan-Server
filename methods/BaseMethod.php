@@ -5,10 +5,15 @@ use utils\ResponseBuilder;
 
 class BaseMethod
 {
-    public function getResponseBuilder(): ResponseBuilder {
+    protected function getResponseBuilder(): ResponseBuilder {
         return new ResponseBuilder();
     }
-    public function getDatabase(): Database {
+    protected function getDatabase(): Database {
         return Database::getInstance();
+    }
+    protected function checkParams(...$params) {
+        foreach ($params as $param) {
+            if(!$param) $this->getResponseBuilder()->BuildErrorResponse();
+        }
     }
 }

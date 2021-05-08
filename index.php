@@ -3,6 +3,7 @@
 require_once "utils/Const.php";
 require_once "utils/ResponseBuilder.php";
 require_once "utils/Database.php";
+require_once "methods/BaseMethod.php";
 
 use utils\ResponseBuilder;
 
