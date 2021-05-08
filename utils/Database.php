@@ -43,7 +43,6 @@ class Database
     public function query($sql): bool
     {
         $this->connect->query($sql);
-        echo $this->connect->error;
         return $this->connect->errno == 0;
     }
 
