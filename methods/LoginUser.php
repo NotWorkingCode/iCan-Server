@@ -7,7 +7,7 @@ class LoginUser extends BaseMethod
     {
         $this->checkParams($_GET["login"], $_GET["pass"]);
 
-        $response = $this->getDatabase()->get("SELECT * FROM `users` WHERE `a_login` = '{$_GET["login"]}'");
+        $response = $this->getDatabase()->get("SELECT * FROM `accounts` WHERE `a_login` = '{$_GET["login"]}'");
 
         if(!$response) $this->getResponseBuilder()
             ->AddErrorUserMessage("Пользователь с данным логином еще не зарегестрирован!")
@@ -25,7 +25,7 @@ class LoginUser extends BaseMethod
             "ID" => $response["a_id"],
             "name" => $response["a_name"],
             "token" => $token,
-            "type" => $response["a_type"],
+            "type" => $response["a_role"],
             "department" => $response["a_department"]
         );
 
