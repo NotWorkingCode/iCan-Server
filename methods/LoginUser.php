@@ -25,7 +25,7 @@ class LoginUser extends BaseMethod
             "ID" => $response["a_id"],
             "name" => $response["a_name"],
             "token" => $token,
-            "type" => $response["a_role"],
+            "role" => $response["a_role"],
             "department" => $response["a_department"]
         );
 
