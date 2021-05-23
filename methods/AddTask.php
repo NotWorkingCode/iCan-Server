@@ -19,11 +19,16 @@ class AddTask extends BaseMethod
             ->AddErrorDebugMessage("Access denied | a_role = {$response["a_role"]}")
             ->BuildErrorResponse();
 
-        $d_response = $this->getDatabase()->get("SELECT `a_department` FROM `accounts` WHERE a_id = '{$_GET["executor"]}'");
+        $d_response = $this->getDatabase()->get("SELECT `a_department`, `a_role` FROM `accounts` WHERE a_id = '{$_GET["executor"]}'");
 
         if(!$d_response) $this->getResponseBuilder()
             ->AddErrorUserMessage("Данный пользователь не найден в БД.")
             ->AddErrorDebugMessage("E | User not found")
+            ->BuildErrorResponse();
+
+        if($d_response["a_role"] = 2) $this->getResponseBuilder()
+            ->AddErrorUserMessage("Вы не можете выбрать данного пользователя в качестве исполнителя.")
+            ->AddErrorDebugMessage("E | Boss not work!")
             ->BuildErrorResponse();
 
 

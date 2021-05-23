@@ -60,4 +60,13 @@ class Database
             else return false;
         } else return false;
     }
+
+    public function allOrder($table, $order_by) {
+        $sql = "SELECT * FROM `{$table}` ORDER BY `{$order_by}` DESC";
+        if($result = $this->connect->query($sql))
+        {
+            if($result->num_rows > 0) return $result;
+            else return false;
+        } else $result;
+    }
 }

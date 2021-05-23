@@ -29,7 +29,7 @@ class LoginUser extends BaseMethod
             "department" => $response["a_department"]
         );
 
-        $this->getDatabase()->query("UPDATE `users` SET `a_token`='{$token}' WHERE `a_login`='{$_GET["login"]}'");
+        $this->getDatabase()->query("UPDATE `accounts` SET `a_token`='{$token}' WHERE `a_login`='{$_GET["login"]}'");
 
         $this->getResponseBuilder()->AddSuccessResponseBody($body)->BuildSuccessResponse();
     }
