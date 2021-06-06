@@ -11,9 +11,9 @@ $method = $_GET['method'] ?: "ErrorNoMethod";
 
 header('Content-Type: application/json');
 
-if(file_exists("methods\\" . $method . ".php"))
+if(file_exists("methods/" . $method . ".php"))
 {
-    require_once("methods\\" . $method . ".php");
+    require_once("methods/" . $method . ".php");
     $api_module = new $method();
 } else
 {

@@ -38,9 +38,13 @@ class GetAllUser extends BaseMethod
             $data[$count]["user_department"] = $task["a_department"];
             $count++;
         }
+        
+        $value = array(
+            "users" => $data    
+        );
 
         $this->getResponseBuilder()
-            ->AddSuccessResponseBody($data)
+            ->AddSuccessResponseBody($value)
             ->BuildSuccessResponse();
     }
 }

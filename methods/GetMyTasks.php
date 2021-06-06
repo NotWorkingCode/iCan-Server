@@ -1,20 +1,19 @@
 <?php
 
-
-class GetAllTask extends BaseMethod
+class GetMyTasks extends BaseMethod
 {
     public function __construct()
     {
         $this->checkParams($_GET["token"]);
 
-        $response = $this->getDatabase()->get("SELECT `a_department` FROM `accounts` WHERE a_token = '{$_GET["token"]}'");
+        $response = $this->getDatabase()->get("SELECT `a_id` FROM `accounts` WHERE a_token = '{$_GET["token"]}'");
 
         if(!$response) $this->getResponseBuilder()
             ->AddErrorUserMessage("Ваша сессия устарела!")
             ->AddErrorDebugMessage("Access denied | Invalid token.")
             ->BuildErrorResponse();
 
-        $tasks = $this->getDatabase()->all("tasks", $response["a_department"], "t_department");
+        $tasks = $this->getDatabase()->all("tasks", $response["a_id"], "t_executor");
 
         if(!$tasks) $this->getResponseBuilder()
             ->AddErrorUserMessage("На данный момент нет доступных задач.")

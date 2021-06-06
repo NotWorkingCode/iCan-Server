@@ -19,12 +19,16 @@ class AddFreeTask extends BaseMethod
             ->AddErrorDebugMessage("Access denied | a_role = {$response["a_role"]}")
             ->BuildErrorResponse();
 
-        $department = $_GET["department"] ?: $response["a_department"];
-
         $d_create = date("Y-m-d G.i.s");
-
-        $sql = "INSERT INTO `tasks`(`t_title`, `t_body`, `t_create`, `t_deadline`, `t_executor`, `t_creator`, `t_department`, `t_status`) 
-                VALUES ('{$_GET["title"]}', '{$_GET["body"]}', '{$d_create}', '{$_GET["deadline"]}', NULL, '{$response["a_id"]}', '{$department}', 0)";
+        
+        if($response["a_role"] == 2) {
+            $this->checkParams($_GET["department"]);
+            $sql = "INSERT INTO `tasks`(`t_title`, `t_body`, `t_create`, `t_deadline`, `t_executor`, `t_creator`, `t_department`, `t_status`) 
+                VALUES ('{$_GET["title"]}', '{$_GET["body"]}', '{$d_create}', '{$_GET["deadline"]}', NULL, '{$response["a_id"]}', '{$_GET["department"]}', 0)";
+        } else {
+            $sql = "INSERT INTO `tasks`(`t_title`, `t_body`, `t_create`, `t_deadline`, `t_executor`, `t_creator`, `t_department`, `t_status`) 
+                VALUES ('{$_GET["title"]}', '{$_GET["body"]}', '{$d_create}', '{$_GET["deadline"]}', NULL, '{$response["a_id"]}', '{$d_response["a_department"]}', 0)";
+        }
 
         if($this->getDatabase()->query($sql)) $this->getResponseBuilder()->BuildSuccessResponse();
         else $this->getResponseBuilder()

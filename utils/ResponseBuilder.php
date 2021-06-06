@@ -42,8 +42,10 @@ class ResponseBuilder
     {
         $response = json_encode(array(
             "response_code" => $response_code,
-            "user_message" => $this->error_response_user_message,
-            "debug_message" => $this->error_response_debug_message
+            "body" => array(
+                "user_message" => $this->error_response_user_message,
+                "debug_message" => $this->error_response_debug_message
+            )
         ));
         $this->Reset();
         exit($response);

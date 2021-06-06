@@ -1,11 +1,11 @@
 <?php
 
 
-class GetDepartments extends BaseMethod
+class GetUsersByDepartment extends BaseMethod
 {
     public function __construct()
     {
-        $this->checkParams($_GET["token"]);
+        $this->checkParams($_GET["token"], $_GET["department"]);
 
         $response = $this->getDatabase()->get("SELECT `a_role` FROM `accounts` WHERE a_token = '{$_GET["token"]}'");
 
@@ -19,23 +19,25 @@ class GetDepartments extends BaseMethod
             ->AddErrorDebugMessage("Access denied | a_role = {$response["a_role"]}")
             ->BuildErrorResponse();
 
-        $departments = $this->getDatabase()->all("departments");
+        $accounts = $this->getDatabase()->all("accounts", $_GET["department"], "a_department");
 
-        if(!$departments) $this->getResponseBuilder()
-            ->AddErrorUserMessage("На данный момент вы не создали ни одного отдела.")
-            ->AddErrorDebugMessage("E | Departments is null")
+        if (!$accounts) $this->getResponseBuilder()
+            ->AddErrorUserMessage("В данном отделе нет сотрудников.")
+            ->AddErrorDebugMessage("E | Accounts is null")
             ->BuildErrorResponse();
+
+        $data = array(array());
 
         $count = 0;
 
-        while ($department = $departments->fetch_assoc()) {
-            $data[$count]["department_id"] = $department["d_id"];
-            $data[$count]["department_name"] = $department["d_name"];
+        while ($task = $accounts->fetch_assoc()) {
+            $data[$count]["user_id"] = $task["a_id"];
+            $data[$count]["user_name"] = $task["a_name"];
             $count++;
         }
         
         $value = array(
-            "departments" => $data    
+            "users" => $data    
         );
 
         $this->getResponseBuilder()

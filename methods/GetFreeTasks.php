@@ -1,7 +1,6 @@
 <?php
 
-
-class GetAllTask extends BaseMethod
+class GetFreeTasks extends BaseMethod
 {
     public function __construct()
     {
@@ -14,7 +13,7 @@ class GetAllTask extends BaseMethod
             ->AddErrorDebugMessage("Access denied | Invalid token.")
             ->BuildErrorResponse();
 
-        $tasks = $this->getDatabase()->all("tasks", $response["a_department"], "t_department");
+        $tasks = $this->getDatabase()->customAll("SELECT * FROM `tasks` WHERE t_executor IS NULL AND t_department = '{$response["a_department"]}'");
 
         if(!$tasks) $this->getResponseBuilder()
             ->AddErrorUserMessage("На данный момент нет доступных задач.")
